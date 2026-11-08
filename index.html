@@ -10,10 +10,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Standalone dark theme rules guaranteeing dark background even before/without CDN processing */
+        html.dark {
+            color-scheme: dark;
+            background-color: #090912 !important;
+        }
+        html.dark body {
+            background-color: #090912 !important;
+            background-image: radial-gradient(at 0% 0%, rgba(88, 28, 135, 0.18) 0px, transparent 55%),
+                              radial-gradient(at 100% 100%, rgba(219, 39, 119, 0.12) 0px, transparent 55%),
+                              radial-gradient(at 50% 50%, rgba(30, 27, 75, 0.35) 0px, transparent 100%) !important;
+            color: #cbd5e1 !important;
+        }
+        html.dark header#header {
+            background-color: rgba(14, 14, 26, 0.88) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        html.dark section {
+            background-color: rgba(17, 17, 34, 0.9) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+        }
+        html.dark section article,
+        html.dark address,
+        html.dark form > fieldset,
+        html.dark .dark-card {
+            background-color: rgba(23, 23, 46, 0.9) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        html.dark input,
+        html.dark textarea {
+            background-color: #0c0c16 !important;
+            border-color: rgba(255, 255, 255, 0.12) !important;
+            color: #ffffff !important;
+        }
+        html.dark footer {
+            background-color: rgba(14, 14, 26, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+    </style>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -22,23 +63,30 @@
                 }
             }
         }
+
+        // Apply dark mode immediately to avoid flash of light mode
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
 </head>
 
-<body class="bg-gradient-to-br from-rose-50/50 via-purple-50/40 to-sky-50/60 min-h-screen text-slate-700 antialiased font-sans leading-relaxed selection:bg-purple-200 selection:text-purple-900 relative overflow-x-hidden">
+<body class="bg-gradient-to-br from-rose-50/50 via-purple-50/40 to-sky-50/60 dark:bg-[#090912] dark:from-[#090912] dark:via-[#0c0c18] dark:to-[#07070e] min-h-screen text-slate-700 dark:text-slate-300 antialiased font-sans leading-relaxed selection:bg-purple-200 selection:text-purple-900 dark:selection:bg-purple-900 dark:selection:text-purple-200 relative overflow-x-hidden transition-colors duration-300">
 
     <!-- დეკორატიული მანათობელი ბურთები (Soft Glow Orbs) -->
-    <div class="fixed top-10 left-5 sm:left-10 w-72 sm:w-96 h-72 sm:h-96 bg-purple-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    <div class="fixed top-1/3 right-5 sm:right-10 w-72 sm:w-96 h-72 sm:h-96 bg-rose-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
-    <div class="fixed bottom-10 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-sky-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="fixed top-10 left-5 sm:left-10 w-72 sm:w-96 h-72 sm:h-96 bg-purple-200/40 dark:bg-purple-900/15 rounded-full blur-3xl pointer-events-none -z-10 transition-colors"></div>
+    <div class="fixed top-1/3 right-5 sm:right-10 w-72 sm:w-96 h-72 sm:h-96 bg-rose-200/40 dark:bg-pink-900/10 rounded-full blur-3xl pointer-events-none -z-10 transition-colors"></div>
+    <div class="fixed bottom-10 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-sky-200/40 dark:bg-indigo-900/15 rounded-full blur-3xl pointer-events-none -z-10 transition-colors"></div>
 
-    <!-- ჰედერი და სუფთა HTML/CSS ბურგერ მენიუ (JavaScript-ის გარეშე) -->
-    <header id="header" class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-white/70 shadow-[0_4px_20px_-4px_rgba(139,92,246,0.06)] transition-all">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5">
-            <div class="flex items-center justify-between">
+    <!-- ჰედერი -->
+    <header id="header" class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#0e0e1a]/85 border-b border-white/70 dark:border-white/[0.08] shadow-[0_4px_20px_-4px_rgba(139,92,246,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3">
+            <div class="flex items-center justify-between gap-3">
                 
                 <!-- ლოგო / სახელი -->
-                <a href="#header" class="flex items-center gap-2.5 sm:gap-3 group">
+                <a href="#header" class="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-pink-500 to-amber-400 flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-md shadow-violet-500/25 group-hover:scale-105 transition-transform">
                         EA
                     </div>
@@ -46,42 +94,69 @@
                         <h1 class="text-lg sm:text-xl font-extrabold bg-gradient-to-r from-violet-600 via-pink-600 to-amber-500 bg-clip-text text-transparent leading-none">
                             ელენე აკოფიანი
                         </h1>
-                        <p class="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">სკოლის მოსწავლე &bull; ვებ ენთუზიასტი ✨</p>
+                        <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">სკოლის მოსწავლე &bull; ვებ ენთუზიასტი ✨</p>
                     </div>
                 </a>
 
-                <!-- CSS-Only Hamburger Checkbox Toggle (JS-ის გარეშე) -->
-                <input type="checkbox" id="menu-toggle" class="peer sr-only">
+                <!-- მარჯვენა ნაწილი: ნავიგაცია, თემის ღილაკი და ბურგერი მობილურზე -->
+                <div class="flex items-center gap-2 sm:gap-3">
 
-                <!-- ბურგერ ღილაკი მობილურისთვის (Label) -->
-                <label for="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-violet-50 text-violet-700 border border-violet-200/60 cursor-pointer hover:bg-violet-100 transition-colors p-2.5" aria-label="მენიუს გახსნა">
-                    <span class="w-5 h-0.5 bg-violet-700 rounded-full transition-all duration-300 peer-checked:rotate-45 peer-checked:translate-y-1.5"></span>
-                    <span class="w-5 h-0.5 bg-violet-700 rounded-full my-1 transition-all duration-300 peer-checked:opacity-0"></span>
-                    <span class="w-5 h-0.5 bg-violet-700 rounded-full transition-all duration-300 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"></span>
-                </label>
+                    <!-- CSS-Only Hamburger Checkbox Toggle (JS-ის გარეშე) -->
+                    <input type="checkbox" id="menu-toggle" class="peer sr-only">
 
-                <!-- ნავიგაცია: დესკტოპზე ჰორიზონტალური, მობილურზე გაშლადი (Pure CSS) -->
-                <nav aria-label="მთავარი ნავიგაცია" class="hidden peer-checked:block md:!block absolute md:static top-full left-0 w-full md:w-auto bg-white/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border-b md:border-0 border-slate-200/80 shadow-lg md:shadow-none p-4 md:p-0 transition-all">
-                    <ul class="flex flex-col md:flex-row md:items-center gap-1 sm:gap-2 text-sm font-semibold text-slate-600">
-                        <li>
-                            <a href="#about" class="block px-3.5 py-2 rounded-xl hover:text-violet-600 hover:bg-violet-50/80 transition-all">ჩემ შესახებ</a>
-                        </li>
-                        <li>
-                            <a href="#interests" class="block px-3.5 py-2 rounded-xl hover:text-violet-600 hover:bg-violet-50/80 transition-all">ინტერესები</a>
-                        </li>
-                        <li>
-                            <a href="#projects" class="block px-3.5 py-2 rounded-xl hover:text-violet-600 hover:bg-violet-50/80 transition-all">პროექტები</a>
-                        </li>
-                        <li>
-                            <a href="#experience" class="block px-3.5 py-2 rounded-xl hover:text-violet-600 hover:bg-violet-50/80 transition-all">გამოცდილება</a>
-                        </li>
-                        <li class="pt-2 md:pt-0">
-                            <a href="#contact" class="block text-center px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 text-white shadow-md shadow-pink-500/20 hover:shadow-lg hover:shadow-pink-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                                კონტაქტი
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                    <!-- ნავიგაცია: დესკტოპზე ჰორიზონტალური, მობილურზე გაშლადი -->
+                    <nav id="mobile-nav" aria-label="მთავარი ნავიგაცია" class="hidden md:!block absolute md:static top-full left-0 w-full md:w-auto bg-white/95 dark:bg-[#121222]/95 md:bg-transparent dark:md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border-b md:border-0 border-slate-200/80 dark:border-white/10 shadow-lg md:shadow-none p-4 md:p-0 transition-all">
+                        <ul class="flex flex-col md:flex-row md:items-center gap-1 sm:gap-1.5 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                            <li>
+                                <a href="#about" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">ჩემ შესახებ</a>
+                            </li>
+                            <li>
+                                <a href="#interests" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">ინტერესები</a>
+                            </li>
+                            <li>
+                                <a href="#projects" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">პროექტები</a>
+                            </li>
+                            <li>
+                                <a href="#experience" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">გამოცდილება</a>
+                            </li>
+                            <li>
+                                <a href="#employees" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">თანამშრომლები</a>
+                            </li>
+                            <li>
+                                <a href="#posts" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">პოსტები</a>
+                            </li>
+                            <li>
+                                <a href="#comments" class="block px-3 py-2 rounded-xl hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50/80 dark:hover:bg-white/[0.06] transition-all">კომენტარები</a>
+                            </li>
+                            <li class="pt-2 md:pt-0">
+                                <a href="#contact" class="block text-center px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 text-white shadow-md shadow-pink-500/20 hover:shadow-lg hover:shadow-pink-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                    კონტაქტი
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <!-- მარჯვენა ღილაკი: თემის შეცვლა (სუფთა წრიული ხატულა მარჯვნივ) -->
+                    <button id="theme-toggle" type="button" aria-label="თემის შეცვლა" title="თემის შეცვლა"
+                        class="w-10 h-10 rounded-xl bg-slate-100/90 dark:bg-white/[0.08] text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-white/[0.12] hover:bg-violet-50 dark:hover:bg-white/[0.15] hover:text-violet-600 hover:border-violet-200 dark:hover:border-amber-300/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer flex-shrink-0 shadow-sm">
+                        <!-- მზე (ნაჩვენებია მუქ რეჟიმში) -->
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05L5.636 5.636m12.728 0l-1.414 1.414M7.05 16.95l-1.414 1.414M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- მთვარე (ნაჩვენებია ღია რეჟიმში) -->
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+
+                    <!-- ბურგერ ღილაკი მობილურისთვის (Label) -->
+                    <label id="burger-btn" for="menu-toggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-slate-100/90 dark:bg-white/[0.08] text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-white/[0.12] cursor-pointer hover:bg-violet-50 dark:hover:bg-white/[0.15] transition-colors p-2.5 flex-shrink-0" aria-label="მენიუს გახსნა">
+                        <span class="w-5 h-0.5 bg-slate-700 dark:bg-slate-200 rounded-full transition-all duration-300 peer-checked:rotate-45 peer-checked:translate-y-1.5"></span>
+                        <span class="w-5 h-0.5 bg-slate-700 dark:bg-slate-200 rounded-full my-1 transition-all duration-300 peer-checked:opacity-0"></span>
+                        <span class="w-5 h-0.5 bg-slate-700 dark:bg-slate-200 rounded-full transition-all duration-300 peer-checked:-rotate-45 peer-checked:-translate-y-1.5"></span>
+                    </label>
+
+                </div>
 
             </div>
         </div>
@@ -91,11 +166,11 @@
     <main id="main-content" class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10 sm:space-y-14">
 
         <!-- ჩემ შესახებ (Hero Card) -->
-        <section id="about" class="relative overflow-hidden bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.07)] border border-white hover:border-violet-200/60 transition-all">
-            <div class="absolute -top-16 -right-16 w-40 sm:w-48 h-40 sm:h-48 bg-gradient-to-br from-pink-300/30 to-violet-300/30 rounded-full blur-2xl"></div>
+        <section id="about" class="relative overflow-hidden bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.07)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08] hover:border-violet-200/60 dark:hover:border-violet-500/30 transition-all">
+            <div class="absolute -top-16 -right-16 w-40 sm:w-48 h-40 sm:h-48 bg-gradient-to-br from-pink-300/30 to-violet-300/30 dark:from-pink-500/10 dark:to-violet-500/15 rounded-full blur-2xl"></div>
 
             <header class="mb-5 sm:mb-6">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-violet-100/80 text-violet-700 border border-violet-200/60">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-violet-100/80 dark:bg-violet-950/70 text-violet-700 dark:text-violet-300 border border-violet-200/60 dark:border-violet-800/60">
                     <span class="w-2 h-2 rounded-full bg-violet-500 animate-pulse"></span>
                     გამარჯობა, მე ვარ ელენე 👋
                 </span>
@@ -103,34 +178,34 @@
 
             <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                 <div class="md:col-span-7 space-y-3 sm:space-y-4">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
                         ვსწავლობ და ვქმნი <br>
-                        <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">პირველ ვებ გვერდებს</span>
+                        <span class="bg-gradient-to-r from-violet-600 via-pink-500 to-amber-500 dark:from-violet-400 dark:via-pink-400 dark:to-amber-300 bg-clip-text text-transparent">პირველ ვებ გვერდებს</span>
                     </h2>
-                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
                         მე ვარ სკოლის მოსწავლე, რომელსაც ძალიან უყვარს ტექნოლოგიების სამყარო. 
                         ჩემი მიზანია შევისწავლო, როგორ იქმნება თანამედროვე, ლამაზი და მოსახერხებელი საიტები და ჩემი იდეები ვაქციო რეალობად.
                     </p>
-                    <p class="text-slate-600 leading-relaxed text-xs sm:text-sm">
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-xs sm:text-sm">
                         ახლა აქტიურად ვდგამ პირველ ნაბიჯებს სუფთა კოდის წერაში, დიზაინსა და ვებ სტანდარტებში.
                     </p>
 
                     <div class="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
-                        <a href="#projects" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-semibold shadow-sm hover:bg-slate-800 transition-all">
+                        <a href="#projects" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-violet-600 text-white text-xs sm:text-sm font-semibold shadow-sm hover:bg-slate-800 dark:hover:bg-violet-500 transition-all">
                             პროექტების ნახვა &rarr;
                         </a>
-                        <a href="#contact" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl bg-white text-violet-700 border border-violet-200 text-xs sm:text-sm font-semibold hover:bg-violet-50 transition-all">
+                        <a href="#contact" class="w-full sm:w-auto text-center px-5 py-2.5 rounded-xl bg-white dark:bg-white/[0.06] text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-white/[0.12] text-xs sm:text-sm font-semibold hover:bg-violet-50 dark:hover:bg-white/[0.1] transition-all">
                             მომწერე
                         </a>
                     </div>
                 </div>
 
                 <figure class="md:col-span-5 relative group w-full">
-                    <div class="absolute -inset-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-300"></div>
-                    <div class="relative overflow-hidden rounded-2xl bg-white border border-white/80 shadow-lg">
+                    <div class="absolute -inset-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-30 dark:opacity-40 group-hover:opacity-50 dark:group-hover:opacity-70 transition duration-300"></div>
+                    <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-[#16162a] border border-white/80 dark:border-white/[0.1] shadow-lg">
                         <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&auto=format&fit=crop&q=70"
                             alt="კომპიუტერი და სამუშაო გარემო" class="w-full h-52 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-500">
-                        <figcaption class="p-2.5 sm:p-3 text-xs text-center font-medium text-slate-500 bg-white/90 backdrop-blur-sm border-t border-slate-100">
+                        <figcaption class="p-2.5 sm:p-3 text-xs text-center font-medium text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-[#16162a]/90 backdrop-blur-sm border-t border-slate-100 dark:border-white/[0.08]">
                             💡 ტექნოლოგიები და კრეატიული კოდი
                         </figcaption>
                     </div>
@@ -139,49 +214,49 @@
         </section>
 
         <!-- ინტერესები და მიზნები -->
-        <section id="interests" class="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] border border-white">
+        <section id="interests" class="bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08]">
             <header class="mb-6 sm:mb-8">
-                <span class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-1 block">ინტერესები</span>
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800">რა მაინტერესებს და რას ვსწავლობ</h2>
+                <span class="text-xs font-bold uppercase tracking-wider text-pink-500 dark:text-pink-400 mb-1 block">ინტერესები</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">რა მაინტერესებს და რას ვსწავლობ</h2>
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <!-- ბარათი 1 -->
-                <article class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-violet-50/80 via-white to-purple-50/30 border border-violet-100 shadow-sm hover:shadow-md hover:border-violet-300 transition-all">
-                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-violet-500/10 text-violet-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4">
+                <article class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-violet-50/80 via-white to-purple-50/30 dark:from-[#17172e] dark:via-[#141428] dark:to-[#17172e] border border-violet-100 dark:border-white/[0.08] shadow-sm hover:shadow-md hover:border-violet-300 dark:hover:border-violet-500/40 transition-all">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-violet-500/10 dark:bg-violet-500/20 text-violet-600 dark:text-violet-300 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4">
                         💻
                     </div>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-800 mb-3 sm:mb-4">ვებ ტექნოლოგიები</h3>
-                    <ul class="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-600">
+                    <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white mb-3 sm:mb-4">ვებ ტექნოლოგიები</h3>
+                    <ul class="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
                         <li class="flex items-start gap-2.5">
-                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-[10px] sm:text-xs font-bold">✓</span>
-                            <span><strong class="text-slate-800">HTML5 სემანტიკა:</strong> სუფთა სტრუქტურა და სწორი ტეგები</span>
+                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] sm:text-xs font-bold border dark:border-emerald-800/40">✓</span>
+                            <span><strong class="text-slate-800 dark:text-white">HTML5 სემანტიკა:</strong> სუფთა სტრუქტურა და სწორი ტეგები</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center text-[10px] sm:text-xs font-bold">✓</span>
-                            <span><strong class="text-slate-800">CSS3 & Tailwind:</strong> ფერები, გრადიენტები და ადაპტური სტილი</span>
+                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-pink-100 dark:bg-pink-950/80 text-pink-600 dark:text-pink-400 flex items-center justify-center text-[10px] sm:text-xs font-bold border dark:border-pink-800/40">✓</span>
+                            <span><strong class="text-slate-800 dark:text-white">CSS3 & Tailwind:</strong> ფერები, გრადიენტები და ადაპტური სტილი</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-[10px] sm:text-xs font-bold">✓</span>
-                            <span><strong class="text-slate-800">კრეატიული იდეები:</strong> მარტივი და მოსახერხებელი მომხმარებლის ინტერფეისი</span>
+                            <span class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-md sm:rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center text-[10px] sm:text-xs font-bold border dark:border-amber-800/40">✓</span>
+                            <span><strong class="text-slate-800 dark:text-white">კრეატიული იდეები:</strong> მარტივი და მოსახერხებელი მომხმარებლის ინტერფეისი</span>
                         </li>
                     </ul>
                 </article>
 
                 <!-- ბარათი 2 -->
-                <article class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-pink-50/80 via-white to-rose-50/30 border border-pink-100 shadow-sm hover:shadow-md hover:border-pink-300 transition-all flex flex-col justify-between">
+                <article class="p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-pink-50/80 via-white to-rose-50/30 dark:from-[#17172e] dark:via-[#141428] dark:to-[#17172e] border border-pink-100 dark:border-white/[0.08] shadow-sm hover:shadow-md hover:border-pink-300 dark:hover:border-pink-500/40 transition-all flex flex-col justify-between">
                     <div>
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-pink-500/10 text-pink-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-pink-500/10 dark:bg-pink-500/20 text-pink-600 dark:text-pink-300 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4">
                             🎯
                         </div>
-                        <h3 class="text-base sm:text-lg font-bold text-slate-800 mb-2 sm:mb-3">ჩემი მთავარი მიზანი</h3>
-                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white mb-2 sm:mb-3">ჩემი მთავარი მიზანი</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-4">
                             დღითიდღე გავიღრმავო ცოდნა, შევქმნა საკუთარი საინტერესო მინი-პროექტები, 
                             ვისწავლო თანამედროვე ხელსაწყოები და მომავალში ჩამოვყალიბდე წარმატებულ ვებ დეველოპერად.
                         </p>
                     </div>
 
-                    <div class="p-3 sm:p-3.5 rounded-xl bg-white/80 border border-pink-200/60 text-[11px] sm:text-xs font-medium text-pink-700 flex items-center gap-2">
+                    <div class="p-3 sm:p-3.5 rounded-xl bg-white/80 dark:bg-white/[0.05] border border-pink-200/60 dark:border-pink-900/40 text-[11px] sm:text-xs font-medium text-pink-700 dark:text-pink-300 flex items-center gap-2">
                         <span>✨</span>
                         <span>„პატარა ყოველდღიური ნაბიჯები დიდ შედეგებამდე მიგვიყვანს.“</span>
                     </div>
@@ -190,55 +265,55 @@
         </section>
 
         <!-- პროექტები -->
-        <section id="projects" class="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] border border-white">
+        <section id="projects" class="bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08]">
             <header class="mb-6 sm:mb-8">
-                <span class="text-xs font-bold uppercase tracking-wider text-violet-600 mb-1 block">პრაქტიკა</span>
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800">პირველი ნაბიჯები და პროექტები</h2>
+                <span class="text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-400 mb-1 block">პრაქტიკა</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">პირველი ნაბიჯები და პროექტები</h2>
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 <!-- პროექტი 1 -->
-                <article id="project-1" class="group bg-gradient-to-b from-white to-violet-50/40 rounded-2xl p-5 sm:p-6 border border-slate-200/80 hover:border-violet-300 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <article id="project-1" class="group bg-gradient-to-b from-white to-violet-50/40 dark:from-[#17172e] dark:to-[#131326] rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-white/[0.08] hover:border-violet-300 dark:hover:border-violet-500/50 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
                     <div>
                         <header class="mb-3 sm:mb-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] sm:text-xs font-bold bg-emerald-100 text-emerald-800 rounded-full mb-2 sm:mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] sm:text-xs font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 rounded-full mb-2 sm:mb-3 border dark:border-emerald-800/40">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                 შესრულებული &bull; 2026
                             </span>
-                            <h3 class="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-violet-700 transition-colors">ჩემი პირველი პორტფოლიო</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-white group-hover:text-violet-700 dark:group-hover:text-violet-400 transition-colors">ჩემი პირველი პორტფოლიო</h3>
                         </header>
-                        <p class="text-xs sm:text-sm text-slate-600 mb-4 sm:mb-5 leading-relaxed">
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-5 leading-relaxed">
                             ეს არის ჩემი პირველი ვებ გვერდი, რომელიც შევქმენი სუფთა HTML-ის, სემანტიკური ტეგებისა და რესპონსიული Tailwind სტილების გამოყენებით.
                         </p>
                     </div>
-                    <figure class="overflow-hidden rounded-xl border border-slate-200/70 shadow-sm">
+                    <figure class="overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/[0.08] shadow-sm">
                         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&auto=format&fit=crop&q=70"
                             alt="სწავლა და პროგრამირება" class="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <figcaption class="p-2 sm:p-2.5 text-[11px] sm:text-xs text-center font-medium text-slate-500 bg-white">
+                        <figcaption class="p-2 sm:p-2.5 text-[11px] sm:text-xs text-center font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-[#1a1a33]">
                             🎓 სწავლისა და პრაქტიკის პროცესი
                         </figcaption>
                     </figure>
                 </article>
 
                 <!-- პროექტი 2 -->
-                <article id="project-2" class="group bg-gradient-to-b from-white to-pink-50/40 rounded-2xl p-5 sm:p-6 border border-slate-200/80 hover:border-pink-300 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                <article id="project-2" class="group bg-gradient-to-b from-white to-pink-50/40 dark:from-[#17172e] dark:to-[#131326] rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-white/[0.08] hover:border-pink-300 dark:hover:border-pink-500/50 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
                     <div>
                         <header class="mb-3 sm:mb-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] sm:text-xs font-bold bg-amber-100 text-amber-800 rounded-full mb-2 sm:mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] sm:text-xs font-bold bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 rounded-full mb-2 sm:mb-3 border dark:border-amber-800/40">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                                 დაგეგმილი &bull; იდეა
                             </span>
-                            <h3 class="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-pink-600 transition-colors">ინგლისური ენის შესწავლის ვებ გვერდი</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">ინგლისური ენის შესწავლის ვებ გვერდი</h3>
                         </header>
-                        <p class="text-xs sm:text-sm text-slate-600 mb-4 sm:mb-5 leading-relaxed">
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-5 leading-relaxed">
                             ვგეგმავ ინტერაქტიული საიტის შექმნას ინგლისური ენის მარტივად შესასწავლად —
                             ახალი სიტყვების ბარათებით (flashcards), გრამატიკული წესებით და სახალისო ტესტებით სკოლის მოსწავლეებისთვის.
                         </p>
                     </div>
-                    <figure class="overflow-hidden rounded-xl border border-slate-200/70 shadow-sm">
+                    <figure class="overflow-hidden rounded-xl border border-slate-200/70 dark:border-white/[0.08] shadow-sm">
                         <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=70"
                             alt="წიგნები და ინგლისურის სწავლა" class="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <figcaption class="p-2 sm:p-2.5 text-[11px] sm:text-xs text-center font-medium text-slate-500 bg-white">
+                        <figcaption class="p-2 sm:p-2.5 text-[11px] sm:text-xs text-center font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-[#1a1a33]">
                             📚 იდეა: ინგლისური ენის შემსწავლელი პლატფორმა
                         </figcaption>
                     </figure>
@@ -247,33 +322,33 @@
         </section>
 
         <!-- გამოცდილება -->
-        <section id="experience" class="bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] border border-white">
+        <section id="experience" class="bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.05)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08]">
             <header class="mb-6 sm:mb-8">
-                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 mb-1 block">განვითარება</span>
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800">გამოცდილება</h2>
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 mb-1 block">განვითარება</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">გამოცდილება</h2>
             </header>
 
             <div class="space-y-3.5 sm:space-y-4">
-                <article class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-violet-50/80 to-white border-l-4 border-violet-500 border border-slate-200/70 hover:shadow-sm transition-all">
+                <article class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-violet-50/80 to-white dark:from-[#17172e] dark:to-[#131326] border-l-4 border-violet-500 border border-slate-200/70 dark:border-white/[0.08] hover:shadow-sm transition-all">
                     <header class="mb-1.5 sm:mb-2">
-                        <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
                             <span>🌱</span> დამოუკიდებელი სწავლა და პრაქტიკა
                         </h3>
                     </header>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                         დამოუკიდებლად ვსწავლობ ვებ დეველოპმენტის საფუძვლებს: HTML5-ის სემანტიკურ სტრუქტურას,
                         სწორი ტეგების შერჩევას, საიტების აგების პრინციპებსა და კოდის გამართვას.
                     </p>
                 </article>
 
-                <article class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-sky-50/80 to-white border-l-4 border-sky-500 border border-slate-200/70 hover:shadow-sm transition-all">
+                <article class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-sky-50/80 to-white dark:from-[#17172e] dark:to-[#131326] border-l-4 border-sky-500 border border-slate-200/70 dark:border-white/[0.08] hover:shadow-sm transition-all">
                     <header class="mb-1.5 sm:mb-2">
-                        <h3 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
                             <span>🏫</span> სასკოლო და ონლაინ აქტივობები
                         </h3>
-                        <p class="text-[11px] sm:text-xs text-sky-700 font-semibold mt-0.5">სასკოლო პროექტები და ტექნოლოგიური ინტერესები</p>
+                        <p class="text-[11px] sm:text-xs text-sky-700 dark:text-sky-300 font-semibold mt-0.5">სასკოლო პროექტები და ტექნოლოგიური ინტერესები</p>
                     </header>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mt-1">
                         აქტიურად ვმონაწილეობ სასკოლო პრეზენტაციებში, ვეცნობი ონლაინ სასწავლო რესურსებს და ვმუშაობ ჩემს
                         პირველ ვებ იდეებზე.
                     </p>
@@ -282,55 +357,55 @@
         </section>
 
         <!-- კონტაქტი -->
-        <section id="contact" class="bg-gradient-to-br from-white via-white to-violet-50/60 rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-12 shadow-[0_10px_35px_-5px_rgba(139,92,246,0.08)] border border-white">
+        <section id="contact" class="bg-gradient-to-br from-white via-white to-violet-50/60 dark:from-[#111122]/95 dark:via-[#111122]/90 dark:to-violet-950/20 rounded-2xl sm:rounded-[2rem] p-6 sm:p-8 md:p-12 shadow-[0_10px_35px_-5px_rgba(139,92,246,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08]">
             <header class="mb-6 sm:mb-8">
-                <span class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-1 block">კავშირი</span>
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800">დამიკავშირდით</h2>
-                <p class="text-xs sm:text-sm text-slate-500 mt-1">თუ გაქვთ რჩევა ან გსურთ დაკავშირება, სიამოვნებით მივიღებ შეტყობინებას:</p>
+                <span class="text-xs font-bold uppercase tracking-wider text-pink-500 dark:text-pink-400 mb-1 block">კავშირი</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white">დამიკავშირდით</h2>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">თუ გაქვთ რჩევა ან გსურთ დაკავშირება, სიამოვნებით მივიღებ შეტყობინებას:</p>
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-start">
-                <address class="not-italic space-y-3 sm:space-y-4 md:col-span-1 bg-white p-5 sm:p-6 rounded-2xl border border-violet-100 shadow-sm">
-                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-violet-500">საკონტაქტო მონაცემები</h3>
+                <address class="not-italic space-y-3 sm:space-y-4 md:col-span-1 bg-white dark:bg-[#16162c] p-5 sm:p-6 rounded-2xl border border-violet-100 dark:border-white/[0.08] shadow-sm">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-violet-500 dark:text-violet-400">საკონტაქტო მონაცემები</h3>
                     <div class="space-y-3.5 text-xs sm:text-sm">
                         <div class="flex items-start gap-3">
-                            <span class="p-2 rounded-xl bg-violet-50 text-violet-600">✉️</span>
+                            <span class="p-2 rounded-xl bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400">✉️</span>
                             <div class="break-all">
                                 <span class="block text-[11px] text-slate-400 font-medium">ელექტრონული ფოსტა</span>
-                                <a href="mailto:elene@example.com" class="text-violet-700 font-bold hover:underline">elene@example.com</a>
+                                <a href="mailto:elene@example.com" class="text-violet-700 dark:text-violet-300 font-bold hover:underline">elene@example.com</a>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <span class="p-2 rounded-xl bg-pink-50 text-pink-600">📍</span>
+                            <span class="p-2 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400">📍</span>
                             <div>
                                 <span class="block text-[11px] text-slate-400 font-medium">მდებარეობა</span>
-                                <span class="font-bold text-slate-700">თბილისი, საქართველო</span>
+                                <span class="font-bold text-slate-700 dark:text-slate-200">თბილისი, საქართველო</span>
                             </div>
                         </div>
                     </div>
                 </address>
 
-                <div class="md:col-span-2 bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="md:col-span-2 bg-white dark:bg-[#16162c] p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-100 dark:border-white/[0.08] shadow-sm">
                     <form action="#" method="post" class="space-y-3.5 sm:space-y-4">
                         <fieldset class="border-0 p-0 m-0 space-y-3.5 sm:space-y-4">
                             <legend class="sr-only">საკონტაქტო ფორმა</legend>
 
                             <div>
-                                <label for="name" class="block text-xs font-bold text-slate-700 mb-1">თქვენი სახელი</label>
+                                <label for="name" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">თქვენი სახელი</label>
                                 <input type="text" id="name" name="name" required placeholder="მაგ: მარიამი"
-                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white transition-all">
+                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 dark:border-white/[0.1] bg-slate-50/50 dark:bg-[#0c0c16] text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white dark:focus:bg-[#0c0c16] transition-all">
                             </div>
 
                             <div>
-                                <label for="email" class="block text-xs font-bold text-slate-700 mb-1">ელექტრონული ფოსტა</label>
+                                <label for="email" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">ელექტრონული ფოსტა</label>
                                 <input type="email" id="email" name="email" required placeholder="name@example.com"
-                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white transition-all">
+                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 dark:border-white/[0.1] bg-slate-50/50 dark:bg-[#0c0c16] text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white dark:focus:bg-[#0c0c16] transition-all">
                             </div>
 
                             <div>
-                                <label for="message" class="block text-xs font-bold text-slate-700 mb-1">შეტყობინება</label>
+                                <label for="message" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">შეტყობინება</label>
                                 <textarea id="message" name="message" rows="4" required placeholder="დაწერეთ თქვენი აზრი ან რჩევა..."
-                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white transition-all"></textarea>
+                                    class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 dark:border-white/[0.1] bg-slate-50/50 dark:bg-[#0c0c16] text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 focus:bg-white dark:focus:bg-[#0c0c16] transition-all"></textarea>
                             </div>
 
                             <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 sm:gap-3 pt-1">
@@ -339,7 +414,7 @@
                                     შეტყობინების გაგზავნა ✨
                                 </button>
                                 <button type="reset"
-                                    class="w-full sm:w-auto px-4 py-2.5 sm:py-3 rounded-xl bg-slate-100 text-slate-600 text-xs sm:text-sm font-medium hover:bg-slate-200 transition-colors">
+                                    class="w-full sm:w-auto px-4 py-2.5 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.08] text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium hover:bg-slate-200 dark:hover:bg-white/[0.14] transition-colors">
                                     გასუფთავება
                                 </button>
                             </div>
@@ -349,18 +424,215 @@
             </div>
         </section>
 
+        <!-- თანამშრომლები -->
+        <section id="employees" class="relative overflow-hidden bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.07)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08] hover:border-violet-200/60 dark:hover:border-violet-500/30 transition-all">
+            <div class="absolute -top-16 -left-16 w-40 sm:w-48 h-40 sm:h-48 bg-gradient-to-br from-sky-300/30 to-violet-300/30 dark:from-sky-500/10 dark:to-violet-500/15 rounded-full blur-2xl"></div>
+
+            <header class="mb-6 sm:mb-8">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-100/80 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                    API მონაცემები
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">თანამშრომლები 👥</h2>
+                <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">მომხმარებლები ჩატვირთულია JSONPlaceholder API-დან</p>
+            </header>
+
+            <!-- Loading მდგომარეობა -->
+            <div id="employees-loading" class="flex items-center justify-center py-12 gap-3 text-slate-400 dark:text-slate-500">
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+                <span class="text-sm font-medium">იტვირთება...</span>
+            </div>
+
+            <!-- მომხმარებლების ბარათები -->
+            <div id="employees-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </section>
+
+        <!-- პოსტები -->
+        <section id="posts" class="relative overflow-hidden bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.07)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08] hover:border-violet-200/60 dark:hover:border-violet-500/30 transition-all">
+            <div class="absolute -top-16 -right-16 w-40 sm:w-48 h-40 sm:h-48 bg-gradient-to-br from-amber-300/30 to-pink-300/30 dark:from-amber-500/10 dark:to-pink-500/15 rounded-full blur-2xl"></div>
+
+            <header class="mb-6">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100/80 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/60 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    API მონაცემები
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">პოსტები 📝</h2>
+            </header>
+
+            <div id="posts-loading" class="flex items-center justify-center py-10 gap-3 text-slate-400 dark:text-slate-500">
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+                <span class="text-sm font-medium">იტვირთება...</span>
+            </div>
+            <div id="posts-list" class="hidden space-y-4"></div>
+        </section>
+
+        <!-- კომენტარები -->
+        <section id="comments" class="relative overflow-hidden bg-white/80 dark:bg-[#111122]/90 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-6 sm:p-10 md:p-12 shadow-[0_10px_30px_-5px_rgba(139,92,246,0.07)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white dark:border-white/[0.08] hover:border-violet-200/60 dark:hover:border-violet-500/30 transition-all">
+            <div class="absolute -top-16 -left-16 w-40 sm:w-48 h-40 sm:h-48 bg-gradient-to-br from-emerald-300/30 to-sky-300/30 dark:from-emerald-500/10 dark:to-sky-500/15 rounded-full blur-2xl"></div>
+
+            <header class="mb-6">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100/80 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    API მონაცემები
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">კომენტარები 💬</h2>
+            </header>
+
+            <div id="comments-loading" class="flex items-center justify-center py-10 gap-3 text-slate-400 dark:text-slate-500">
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+                <span class="text-sm font-medium">იტვირთება...</span>
+            </div>
+            <div id="comments-list" class="hidden space-y-4"></div>
+        </section>
+
     </main>
 
     <!-- ფუტერი -->
-    <footer id="footer" class="border-t border-slate-200/60 bg-white/60 backdrop-blur-md py-6 sm:py-8 mt-12 sm:mt-16">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-slate-500 font-semibold">
+    <footer id="footer" class="border-t border-slate-200/60 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md py-6 sm:py-8 mt-12 sm:mt-16 transition-colors">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-slate-500 dark:text-slate-400 font-semibold">
             <p>&copy; 2026 ელენე აკოფიანი. შექმნილია სიყვარულით და ინტერესით 💜</p>
-            <a href="#header" class="text-violet-600 hover:text-pink-600 transition-colors flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-violet-50">
+            <a href="#header" class="text-violet-600 dark:text-violet-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-violet-50 dark:hover:bg-slate-800">
                 <span>ზემოთ დაბრუნება</span>
                 <span>&uarr;</span>
             </a>
         </div>
     </footer>
+
+    <!-- სუფთა JS სკრიპტი თემის გადასართავად და ლოკალურად შესანახად -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // API-დან მომხმარებლების წამოღება და სახელების ლოგირება
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(users => {
+                console.log('მომხმარებლების სახელები:');
+                users.forEach(user => {
+                    console.log(user.name);
+                });
+
+                // HTML-ში გამოჩენა
+                const loading = document.getElementById('employees-loading');
+                const grid = document.getElementById('employees-grid');
+
+                if (loading) loading.classList.add('hidden');
+                if (grid) {
+                    grid.classList.remove('hidden');
+                    grid.innerHTML = users.map(user => `
+                        <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50/80 dark:bg-white/[0.04] border border-slate-200/60 dark:border-white/[0.07] hover:border-violet-200/60 dark:hover:border-violet-500/30 hover:shadow-md transition-all group">
+                            <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-violet-500 via-pink-500 to-amber-400 flex items-center justify-center text-white font-bold text-base shadow-md flex-shrink-0">
+                                ${user.name.charAt(0)}
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-slate-800 dark:text-white truncate">${user.name}</p>
+                                <a href="mailto:${user.email}" class="text-xs text-violet-600 dark:text-violet-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors truncate block">${user.email}</a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('შეცდომა API-სთან:', error);
+                const loading = document.getElementById('employees-loading');
+                if (loading) loading.innerHTML = '<p class="text-red-500 text-sm">⚠️ მონაცემების ჩატვირთვა ვერ მოხერხდა</p>';
+            });
+
+        // პოსტების წამოღება (მხოლოდ 5)
+        fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(posts => {
+                const first5 = posts.slice(0, 5);
+                console.log('პოსტები:', first5);
+
+                const loading = document.getElementById('posts-loading');
+                const list = document.getElementById('posts-list');
+
+                if (loading) loading.classList.add('hidden');
+                if (list) {
+                    list.classList.remove('hidden');
+                    list.innerHTML = first5.map(post => `
+                        <div class="p-5 rounded-2xl bg-slate-50/80 dark:bg-white/[0.04] border border-slate-200/60 dark:border-white/[0.07] hover:border-amber-200/60 dark:hover:border-amber-500/30 hover:shadow-md transition-all">
+                            <div class="flex items-start gap-3 mb-2">
+                                <span class="mt-0.5 w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs font-bold flex-shrink-0">${post.id}</span>
+                                <h3 class="text-sm font-bold text-slate-800 dark:text-white capitalize leading-snug">${post.title}</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pl-9">${post.body}</p>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('შეცდომა პოსტების ჩატვირთვაში:', error);
+                const loading = document.getElementById('posts-loading');
+                if (loading) loading.innerHTML = '<p class="text-red-500 text-sm">⚠️ პოსტების ჩატვირთვა ვერ მოხერხდა</p>';
+            });
+
+        // კომენტარების წამოღება (მხოლოდ 5)
+        fetch('https://jsonplaceholder.typicode.com/comments')
+            .then(response => response.json())
+            .then(comments => {
+                const first5 = comments.slice(0, 5);
+                console.log('კომენტარები:', first5);
+
+                const loading = document.getElementById('comments-loading');
+                const list = document.getElementById('comments-list');
+
+                if (loading) loading.classList.add('hidden');
+                if (list) {
+                    list.classList.remove('hidden');
+                    list.innerHTML = first5.map(comment => `
+                        <div class="p-5 rounded-2xl bg-slate-50/80 dark:bg-white/[0.04] border border-slate-200/60 dark:border-white/[0.07] hover:border-emerald-200/60 dark:hover:border-emerald-500/30 hover:shadow-md transition-all">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-sky-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                                    ${comment.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-bold text-slate-800 dark:text-white truncate capitalize">${comment.name}</p>
+                                    <a href="mailto:${comment.email}" class="text-xs text-emerald-600 dark:text-emerald-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors truncate block">${comment.email}</a>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pl-11">${comment.body}</p>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('შეცდომა კომენტარების ჩატვირთვაში:', error);
+                const loading = document.getElementById('comments-loading');
+                if (loading) loading.innerHTML = '<p class="text-red-500 text-sm">⚠️ კომენტარების ჩატვირთვა ვერ მოხერხდა</p>';
+            });
+
+        // Burger menu-ს ღილაკზე click eventlistener
+        const burgerBtn = document.getElementById('burger-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        if (burgerBtn && mobileNav) {
+            burgerBtn.addEventListener('click', () => {
+                const isOpen = mobileNav.classList.toggle('hidden');
+
+                console.log('Burger menu clicked!', {
+                    timestamp: new Date().toISOString(),
+                    isOpen: !isOpen,
+                    navElement: mobileNav
+                });
+            });
+        }
+    </script>
 
 </body>
 
